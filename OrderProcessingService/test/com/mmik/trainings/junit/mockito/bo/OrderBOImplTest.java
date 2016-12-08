@@ -92,12 +92,14 @@ public class OrderBOImplTest {
 		// Stubbing and setting expectations :
 		// call the "When static method to stub (= to replace temporary) the
 		// "create" method and
-		// thenReturn to mock (= to simulate) the returned value
+		// thenThrow to mock (= to simulate) the exception
 		Order order = new Order();
 		when(dao.create(order)).thenThrow(SQLException.class);
 
 		// I test the placeOrder call to :
 		boolean result = orderBO.placeOrder(order);
+
+		// Nothing to assert when an exception is thrown
 	}
 
 	/**
@@ -110,7 +112,7 @@ public class OrderBOImplTest {
 	public void cancelOrder_Should_Cancel_An_Order() throws SQLException, BOException {
 		// Stubbing and setting expectations :
 		// call the "When static method to stub (= to replace temporary) the
-		// "read" method. afterwards "update" method and
+		// "read" method afterwards "update" method and
 		// thenReturn to mock (= to simulate) the returned value
 		Order order = new Order();
 		Integer id = new Integer(1);
@@ -128,7 +130,7 @@ public class OrderBOImplTest {
 		verify(dao).update(order);
 
 	}
-	
+
 	/**
 	 * Negative scenario for cancelOrder method
 	 * 
@@ -139,7 +141,7 @@ public class OrderBOImplTest {
 	public void cancelOrder_Should_Not_Cancel_An_Order() throws SQLException, BOException {
 		// Stubbing and setting expectations :
 		// call the "When static method to stub (= to replace temporary) the
-		// "read" method. afterwards "update" method and
+		// "read" method afterwards "update" method and
 		// thenReturn to mock (= to simulate) the returned value
 		Order order = new Order();
 		Integer id = new Integer(1);
@@ -157,4 +159,27 @@ public class OrderBOImplTest {
 		verify(dao).update(order);
 
 	}
+
+	/**
+	 * Mocking Exception scenario for cancelOrder method on Read order
+	 * 
+	 * @throws SQLException
+	 * @throws BOException
+	 */
+	@Test(expected = BOException.class)
+	public void cancelOrder_Should_Throw_BOException_onRead_When_Cancel_An_Order() throws SQLException, BOException {
+		// Stubbing and setting expectations :
+		// call the "When static method to stub (= to replace temporary) the
+		// "read" method and
+		// thenThrow to mock (= to simulate) the exception
+		Order order = new Order();
+		Integer id = new Integer(1);
+		when(dao.read(id)).thenThrow(SQLException.class);
+
+		// I test the placeOrder call :
+		boolean result = orderBO.cancelOrder(id);
+
+		// Nothing to assert when an exception is thrown
+	}
+
 }
