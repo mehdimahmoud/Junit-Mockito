@@ -182,4 +182,29 @@ public class OrderBOImplTest {
 		// Nothing to assert when an exception is thrown
 	}
 
+	/**
+	 * Mocking Exception scenario for cancelOrder method on Update order
+	 * 
+	 * @throws SQLException
+	 * @throws BOException
+	 */
+	@Test(expected = BOException.class)
+	public void cancelOrder_Should_Throw_BOException_onUpdate_When_Cancel_An_Order() throws SQLException, BOException {
+		// Stubbing and setting expectations :
+		// call the "When static method to stub (= to replace temporary) the
+		// "update" method and
+		// thenThrow to mock (= to simulate) the exception
+		Order order = new Order();
+		Integer id = new Integer(1);
+		when(dao.read(id)).thenReturn(order);
+
+		// update the order
+		when(dao.update(order)).thenThrow(SQLException.class);
+
+		// I test the placeOrder call :
+		boolean result = orderBO.cancelOrder(id);
+
+		// Nothing to assert when an exception is thrown
+	}
+
 }
