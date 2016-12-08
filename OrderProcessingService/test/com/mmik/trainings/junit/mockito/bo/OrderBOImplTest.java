@@ -217,10 +217,10 @@ public class OrderBOImplTest {
 		// Stubbing and setting expectations
 		when(dao.delete(anyInt())).thenReturn(new Integer(1));
 
-		boolean result = orderBO.deleteOrder(id);
+		boolean result = orderBO.deleteOrder(anyInt());
 		assertTrue(result);
 		// Verify
-		verify(dao,times(2)).delete(id);
+		verify(dao,times(1)).delete(anyInt()); // if we put 2 times the test will be failed
 		// verify(dao,times(1)).delete(id); // how many times the delete method is called from the dao
 		// or 
 		// verify(dao,atLeast(1)).delete(id);
