@@ -96,8 +96,8 @@ public class OrderBOImplTest {
 		Order order = new Order();
 		when(dao.create(order)).thenThrow(SQLException.class);
 
-		// I test the placeOrder call to :
-		boolean result = orderBO.placeOrder(order);
+		// I test the placeOrder call :
+		orderBO.placeOrder(order);
 
 		// Nothing to assert when an exception is thrown
 	}
@@ -121,7 +121,7 @@ public class OrderBOImplTest {
 		// update the order
 		when(dao.update(order)).thenReturn(new Integer(1));
 
-		// I test the placeOrder call :
+		// I test the cancelOrder call :
 		boolean result = orderBO.cancelOrder(id);
 		assertTrue(result);
 
@@ -150,7 +150,7 @@ public class OrderBOImplTest {
 		// update the order
 		when(dao.update(order)).thenReturn(new Integer(0));
 
-		// I test the placeOrder call :
+		// I test the cancelOrder call :
 		boolean result = orderBO.cancelOrder(id);
 		assertFalse(result);
 
@@ -172,11 +172,10 @@ public class OrderBOImplTest {
 		// call the "When static method to stub (= to replace temporary) the
 		// "read" method and
 		// thenThrow to mock (= to simulate) the exception
-		Order order = new Order();
 		Integer id = new Integer(1);
 		when(dao.read(id)).thenThrow(SQLException.class);
 
-		// I test the placeOrder call :
+		// I test the cancelOrder call :
 		boolean result = orderBO.cancelOrder(id);
 
 		// Nothing to assert when an exception is thrown
@@ -195,16 +194,34 @@ public class OrderBOImplTest {
 		// "update" method and
 		// thenThrow to mock (= to simulate) the exception
 		Order order = new Order();
-		Integer id = new Integer(1);
+		Integer id = new Integer(123);
 		when(dao.read(id)).thenReturn(order);
 
 		// update the order
 		when(dao.update(order)).thenThrow(SQLException.class);
 
-		// I test the placeOrder call :
+		// I test the cancelOrder call :
 		boolean result = orderBO.cancelOrder(id);
 
 		// Nothing to assert when an exception is thrown
+	}
+
+	/**
+	 * Positive scenario for deleteOrder method
+	 * 
+	 * @throws SQLException
+	 * @throws BOException
+	 */
+	@Test
+	public void deleteOrder_Should_Delete_An_Order() throws SQLException, BOException {
+		Integer id = new Integer(123);
+		// Stubbing and setting expectations
+		when(dao.delete(id)).thenReturn(new Integer(1));
+
+		boolean result = orderBO.deleteOrder(id);
+		assertTrue(result);
+		// Verify
+		verify(dao).delete(id);
 	}
 
 }
