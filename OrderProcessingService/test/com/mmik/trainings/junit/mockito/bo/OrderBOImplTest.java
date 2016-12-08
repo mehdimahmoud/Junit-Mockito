@@ -107,7 +107,7 @@ public class OrderBOImplTest {
 	 * @throws BOException
 	 */
 	@Test
-	public void placeOrder_Should_Cancel_An_Order() throws SQLException, BOException {
+	public void cancelOrder_Should_Cancel_An_Order() throws SQLException, BOException {
 		// Stubbing and setting expectations :
 		// call the "When static method to stub (= to replace temporary) the
 		// "read" method. afterwards "update" method and
@@ -122,6 +122,35 @@ public class OrderBOImplTest {
 		// I test the placeOrder call :
 		boolean result = orderBO.cancelOrder(id);
 		assertTrue(result);
+
+		// Verify the stubbed method is called at least once :
+		verify(dao).read(id);
+		verify(dao).update(order);
+
+	}
+	
+	/**
+	 * Negative scenario for cancelOrder method
+	 * 
+	 * @throws SQLException
+	 * @throws BOException
+	 */
+	@Test
+	public void cancelOrder_Should_Not_Cancel_An_Order() throws SQLException, BOException {
+		// Stubbing and setting expectations :
+		// call the "When static method to stub (= to replace temporary) the
+		// "read" method. afterwards "update" method and
+		// thenReturn to mock (= to simulate) the returned value
+		Order order = new Order();
+		Integer id = new Integer(1);
+		when(dao.read(id)).thenReturn(order);
+
+		// update the order
+		when(dao.update(order)).thenReturn(new Integer(0));
+
+		// I test the placeOrder call :
+		boolean result = orderBO.cancelOrder(id);
+		assertFalse(result);
 
 		// Verify the stubbed method is called at least once :
 		verify(dao).read(id);
