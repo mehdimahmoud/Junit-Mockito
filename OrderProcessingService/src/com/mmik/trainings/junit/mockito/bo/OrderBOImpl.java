@@ -13,7 +13,7 @@ public class OrderBOImpl implements OrderBO {
 	@Override
 	public boolean placeOrder(Order order) throws BOException {
 		try {
-			int result = dao.create(order);
+			int result = getDao().create(order);
 			if (result == 0)
 				return false;
 		} catch (SQLException e) {
@@ -25,9 +25,9 @@ public class OrderBOImpl implements OrderBO {
 	@Override
 	public boolean cancelOrder(int id) throws BOException {
 		try {
-			Order order = dao.read(id);
+			Order order = getDao().read(id);
 			order.setStatus("Cancelled");
-			int result = dao.update(order);
+			int result = getDao().update(order);
 			if (result == 0)
 				return false;
 		} catch (SQLException e) {
@@ -39,7 +39,7 @@ public class OrderBOImpl implements OrderBO {
 	@Override
 	public boolean deleteOrder(int id) throws BOException {
 		try {
-			int result = dao.delete(id);
+			int result = getDao().delete(id);
 			if (result == 0)
 				return false;
 		} catch (SQLException e) {
@@ -47,5 +47,13 @@ public class OrderBOImpl implements OrderBO {
 		}
 
 		return true;
+	}
+
+	public OrderDAO getDao() {
+		return dao;
+	}
+
+	public void setDao(OrderDAO dao) {
+		this.dao = dao;
 	}
 }
