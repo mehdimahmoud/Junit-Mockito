@@ -25,7 +25,8 @@ public class OrderBOImplTest {
 
 	@Before
 	public void setup() {
-		// I initialize to take into account the Mockito annotations into this class :
+		// I initialize to take into account the Mockito annotations into this
+		// class :
 		MockitoAnnotations.initMocks(this);
 
 		orderBO = new OrderBOImpl();
@@ -33,19 +34,16 @@ public class OrderBOImplTest {
 	}
 
 	/**
-	 * Positive scenario
+	 * Positive scenario for placeOrder method
 	 * 
 	 * @throws SQLException
 	 * @throws BOException
 	 */
 	@Test
 	public void placeOrder_Should_Create_An_Order() throws SQLException, BOException {
-		OrderBOImpl orderBO = new OrderBOImpl();
-		// I passe the mocked "dao" variable
-		orderBO.setDao(dao);
-
 		// Stubbing and setting expectations :
-		// call the "When static method to stub (= to replace temporary) and
+		// call the "When static method to stub (= to replace temporary) the
+		// "create" method and
 		// thenReturn to mock (= to simulate) the returned value
 		Order order = new Order();
 		when(dao.create(order)).thenReturn(new Integer(1));
@@ -60,16 +58,16 @@ public class OrderBOImplTest {
 	}
 
 	/**
-	 * Negative scenario
+	 * Negative scenario for placeOrder method
 	 * 
 	 * @throws SQLException
 	 * @throws BOException
 	 */
 	@Test
 	public void placeOrder_Should_Not_Create_An_Order() throws SQLException, BOException {
-
 		// Stubbing and setting expectations :
-		// call the "When static method to stub (= to replace temporary) and
+		// call the "When static method to stub (= to replace temporary) the
+		// "create" method and
 		// thenReturn to mock (= to simulate) the returned value
 		Order order = new Order();
 		when(dao.create(order)).thenReturn(new Integer(0));
@@ -84,16 +82,16 @@ public class OrderBOImplTest {
 	}
 
 	/**
-	 * Mocking exception scenario
+	 * Mocking exception scenario for placeOrder method
 	 * 
 	 * @throws SQLException
 	 * @throws BOException
 	 */
 	@Test(expected = BOException.class)
 	public void placeOrder_Should_Throw_BOException_When_Create_An_Order() throws SQLException, BOException {
-
 		// Stubbing and setting expectations :
-		// call the "When static method to stub (= to replace temporary) and
+		// call the "When static method to stub (= to replace temporary) the
+		// "create" method and
 		// thenReturn to mock (= to simulate) the returned value
 		Order order = new Order();
 		when(dao.create(order)).thenThrow(SQLException.class);
@@ -102,4 +100,32 @@ public class OrderBOImplTest {
 		boolean result = orderBO.placeOrder(order);
 	}
 
+	/**
+	 * Positive scenario for cancelOrder method
+	 * 
+	 * @throws SQLException
+	 * @throws BOException
+	 */
+	@Test
+	public void placeOrder_Should_Cancel_An_Order() throws SQLException, BOException {
+		// Stubbing and setting expectations :
+		// call the "When static method to stub (= to replace temporary) the
+		// "read" method. afterwards "update" method and
+		// thenReturn to mock (= to simulate) the returned value
+		Order order = new Order();
+		Integer id = new Integer(1);
+		when(dao.read(id)).thenReturn(order);
+
+		// update the order
+		when(dao.update(order)).thenReturn(new Integer(1));
+
+		// I test the placeOrder call :
+		boolean result = orderBO.cancelOrder(id);
+		assertTrue(result);
+
+		// Verify the stubbed method is called at least once :
+		verify(dao).read(id);
+		verify(dao).update(order);
+
+	}
 }
