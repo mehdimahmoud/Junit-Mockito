@@ -28,7 +28,7 @@ public class OrderBOImpl implements OrderBO {
 			Order order = dao.read(id);
 			order.setStatus("Cancelled");
 			int result = dao.update(order);
-			if(result == 0)
+			if (result == 0)
 				return false;
 		} catch (SQLException e) {
 			throw new BOException(e);
@@ -40,14 +40,12 @@ public class OrderBOImpl implements OrderBO {
 	public boolean deleteOrder(int id) throws BOException {
 		try {
 			int result = dao.delete(id);
-			if(result == 0)
+			if (result == 0)
 				return false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new BOException(e);
 		}
-		
+
 		return true;
 	}
-
 }
