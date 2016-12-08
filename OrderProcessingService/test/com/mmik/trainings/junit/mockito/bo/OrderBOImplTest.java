@@ -1,8 +1,7 @@
 package com.mmik.trainings.junit.mockito.bo;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 import java.sql.SQLException;
 
@@ -200,7 +199,7 @@ public class OrderBOImplTest {
 		// update the order
 		when(dao.update(order)).thenThrow(SQLException.class);
 
-		// I test the cancelOrder call :
+		// I test the cancelOrder call :s
 		boolean result = orderBO.cancelOrder(id);
 
 		// Nothing to assert when an exception is thrown
@@ -214,14 +213,17 @@ public class OrderBOImplTest {
 	 */
 	@Test
 	public void deleteOrder_Should_Delete_An_Order() throws SQLException, BOException {
-		Integer id = new Integer(123);
+		// Integer id = new Integer(123); anyInt() replace this line
 		// Stubbing and setting expectations
-		when(dao.delete(id)).thenReturn(new Integer(1));
+		when(dao.delete(anyInt())).thenReturn(new Integer(1));
 
 		boolean result = orderBO.deleteOrder(id);
 		assertTrue(result);
 		// Verify
-		verify(dao).delete(id);
+		verify(dao,times(2)).delete(id);
+		// verify(dao,times(1)).delete(id); // how many times the delete method is called from the dao
+		// or 
+		// verify(dao,atLeast(1)).delete(id);
 	}
 
 }
