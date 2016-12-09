@@ -23,8 +23,9 @@ public class ATest {
 	
 	@Test
 	public void usesVoidMethod_Should_Call_VoidMethod() throws Exception {
-		// Nothing to stub and to expect when the dependent method is void type
-		assertSame(1, a.usesVoidMethod()); // The B voidMethod method is called from the A usesVoidMethod method
+		// the voidMethod is stubbed implicitly : (nothing to do)
+		// The B voidMethod method is called from the A usesVoidMethod method
+		assertSame(1, a.usesVoidMethod()); 
 		verify(b).voidMethod();
 	}
 	
