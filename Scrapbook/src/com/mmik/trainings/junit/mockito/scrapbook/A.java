@@ -16,7 +16,7 @@ public class A {
 			throw new RuntimeException();
 		}
 		
-		return 0;
+		return 1;
 	}
 
 }

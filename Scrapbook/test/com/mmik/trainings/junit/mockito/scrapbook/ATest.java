@@ -9,11 +9,10 @@ import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.*;
 
 public class ATest {
+	private A a;
 
 	@Mock
-	private B b;
-	
-	private A a;
+	private B b;	
 	
 	@Before
 	public void setup(){
@@ -23,9 +22,11 @@ public class ATest {
 	
 	@Test
 	public void usesVoidMethod_Should_Call_VoidMethod() throws Exception {
-		// the voidMethod is stubbed implicitly : (nothing to do)
-		// The B voidMethod method is called from the A usesVoidMethod method
-		assertSame(1, a.usesVoidMethod()); 
+		// the voidMethod can be stubbed implicitly : (nothing to do)
+		// or explicitly like this :
+		doNothing().when(b).voidMethod(); // do nothing when the voidMethod from the mocked class B is invoked.
+		// The B voidMethod method is called within the A usesVoidMethod method
+		assertSame(1, a.usesVoidMethod());  
 		verify(b).voidMethod();
 	}
 	
