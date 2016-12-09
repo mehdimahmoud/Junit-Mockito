@@ -223,7 +223,7 @@ public class OrderBOImplTest {
 		verify(dao,times(1)).delete(anyInt()); // if we put 2 times the test will be failed
 		// verify(dao,times(1)).delete(id); // how many times the delete method is called from the dao
 		// or 
-		// verify(dao,atLeast(1)).delete(id);
+		// verify(dao,atLeast(1)).delete(id); // the delete method should be called at least once
 	}
 
 }
