@@ -30,6 +30,11 @@ public class ATest {
 		verify(b).voidMethod();
 	}
 	
+	@Test(expected = RuntimeException.class)
+	public void usesVoidMethod_should_Throw_RuntimeException() throws Exception{
+		doThrow(Exception.class).when(b).voidMethod();
+		a.usesVoidMethod();
+	}
 	
 
 }
