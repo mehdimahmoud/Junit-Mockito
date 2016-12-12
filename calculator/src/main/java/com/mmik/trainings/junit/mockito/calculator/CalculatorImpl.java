@@ -1,22 +1,25 @@
 package com.mmik.trainings.junit.mockito.calculator;
 
 /**
- * Hello world!
+ * Calculator
  *
  */
-public class Calculator 
+public class CalculatorImpl implements Calculator
 {
-	
-	public int add (int num1, int num2) throws Exception{
-		return num1 + num2;
+	@Override
+	public int add (int num1, int num2){
+		int sum = num1 + num2;
+		return sum;
 	}
+
 	
     public static void main( String[] args ) throws Exception
     {    	
-        Calculator calculator = new Calculator();
+        Calculator calculator = new CalculatorImpl();
         int num1 = 2;
         int num2 = 5;
-        int result = calculator.add(num1,num2);
+        int result;
+        result = calculator.add(num1,num2);
         
         System.out.println("addition ("+num1+", "+num2+") = "+result);
     }
